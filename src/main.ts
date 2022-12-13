@@ -113,6 +113,10 @@ document.getElementById('gliders')!.addEventListener('click', () => {
 
 document.getElementById('toggleAnimation')!.addEventListener('click', () => {
     state = state === State.AUTO ? State.STEP : State.AUTO;
+
+    if (state === State.AUTO) {
+        animate();
+    }
 });
 
 document.getElementById('step')!.addEventListener('click', performStep);
