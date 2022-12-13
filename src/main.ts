@@ -94,7 +94,7 @@ setInterval(() => {
     heightCell.innerText = `${height}`;
 }, 1000);
 
-document.getElementById('planners')!.addEventListener('click', () => {
+document.getElementById('gliders')!.addEventListener('click', () => {
     for (let i = 0; i < 20; i++) {
         const x = Math.floor(Math.random() * width);
         const y = Math.floor(Math.random() * height);
