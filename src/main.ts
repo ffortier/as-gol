@@ -1,6 +1,7 @@
 import * as as from "../build/release.js";
 import * as ts from "./nowasm";
 import { fps } from "./fps.js";
+import { GLIDER, GLIDER_GUN, PULSAR } from "./shapes.js";
 
 const params = new URLSearchParams(location.search);
 const gol = params.get('mode') === 'as' ? as : ts;
@@ -34,7 +35,7 @@ const performResize = () => {
     img = ctx.createImageData(width, height);
 
     gol.resize(width, height);
-}
+};
 
 const performStep = () => {
     const data = gol.next();
@@ -52,7 +53,27 @@ const animate = () => {
     if (state === State.AUTO) {
         requestAnimationFrame(animate);
     }
-}
+};
+
+const makeShape = (shape: string, x: number, y: number) => {
+    let dx = 0;
+    let dy = 0;
+
+    for (const ch of shape) {
+        switch (ch) {
+            case '1':
+                gol.makeAlive(x + dx++, y + dy);
+                break;
+            case '\n':
+                dx = 0;
+                dy++;
+                break;
+            default:
+                dx++;
+                break;
+        }
+    }
+};
 
 performResize();
 requestAnimationFrame(animate);
@@ -94,22 +115,23 @@ setInterval(() => {
     heightCell.innerText = `${height}`;
 }, 1000);
 
-document.getElementById('gliders')!.addEventListener('click', () => {
-    for (let i = 0; i < 20; i++) {
+const shapeMaker = (shape: string, count = 20) => () => {
+    for (let i = 0; i < count; i++) {
         const x = Math.floor(Math.random() * width);
         const y = Math.floor(Math.random() * height);
 
-        gol.makeAlive(x, y);
-        gol.makeAlive(x + 1, y);
-        gol.makeAlive(x + 2, y);
-        gol.makeAlive(x + 2, y - 1);
-        gol.makeAlive(x + 1, y - 2);
+        makeShape(shape, x, y);
     }
 
     const data = gol.redraw();
     img.data.set(new Uint8Array(data.buffer, 8));
     ctx.putImageData(img, 0, 0);
-});
+};
+
+document.getElementById('gliders')!.addEventListener('click', shapeMaker(GLIDER));
+document.getElementById('pulsars')!.addEventListener('click', shapeMaker(PULSAR));
+document.getElementById('gliderGun')!.addEventListener('click', shapeMaker(GLIDER_GUN, 1));
+document.getElementById('step')!.addEventListener('click', performStep);
 
 document.getElementById('toggleAnimation')!.addEventListener('click', () => {
     state = state === State.AUTO ? State.STEP : State.AUTO;
@@ -118,71 +140,3 @@ document.getElementById('toggleAnimation')!.addEventListener('click', () => {
         animate();
     }
 });
-
-document.getElementById('pulsars')!.addEventListener('click', () => {
-    for (let i = 0; i < 20; i++) {
-        const x = Math.floor(Math.random() * width);
-        const y = Math.floor(Math.random() * height);
-
-        gol.makeAlive(x + 2, y);
-        gol.makeAlive(x + 3, y);
-        gol.makeAlive(x + 4, y);
-        gol.makeAlive(x + 8, y);
-        gol.makeAlive(x + 9, y);
-        gol.makeAlive(x + 10, y);
-
-        gol.makeAlive(x, y + 2);
-        gol.makeAlive(x + 5, y + 2);
-        gol.makeAlive(x + 7, y + 2);
-        gol.makeAlive(x + 12, y + 2);
-
-        gol.makeAlive(x, y + 3);
-        gol.makeAlive(x + 5, y + 3);
-        gol.makeAlive(x + 7, y + 3);
-        gol.makeAlive(x + 12, y + 3);
-
-        gol.makeAlive(x, y + 4);
-        gol.makeAlive(x + 5, y + 4);
-        gol.makeAlive(x + 7, y + 4);
-        gol.makeAlive(x + 12, y + 4);
-
-        gol.makeAlive(x + 2, y + 5);
-        gol.makeAlive(x + 3, y + 5);
-        gol.makeAlive(x + 4, y + 5);
-        gol.makeAlive(x + 8, y + 5);
-        gol.makeAlive(x + 9, y + 5);
-        gol.makeAlive(x + 10, y + 5);
-
-        gol.makeAlive(x + 2, y + 7);
-        gol.makeAlive(x + 3, y + 7);
-        gol.makeAlive(x + 4, y + 7);
-        gol.makeAlive(x + 8, y + 7);
-        gol.makeAlive(x + 9, y + 7);
-        gol.makeAlive(x + 10, y + 7);
-
-        gol.makeAlive(x, y + 7 + 1);
-        gol.makeAlive(x + 5, y + 7 + 1);
-        gol.makeAlive(x + 7, y + 7 + 1);
-        gol.makeAlive(x + 12, y + 7 + 1);
-
-        gol.makeAlive(x, y + 7 + 2);
-        gol.makeAlive(x + 5, y + 7 + 2);
-        gol.makeAlive(x + 7, y + 7 + 2);
-        gol.makeAlive(x + 12, y + 7 + 2);
-
-        gol.makeAlive(x, y + 7 + 3);
-        gol.makeAlive(x + 5, y + 7 + 3);
-        gol.makeAlive(x + 7, y + 7 + 3);
-        gol.makeAlive(x + 12, y + 7 + 3);
-
-        gol.makeAlive(x + 2, y + 7 + 5);
-        gol.makeAlive(x + 3, y + 7 + 5);
-        gol.makeAlive(x + 4, y + 7 + 5);
-        gol.makeAlive(x + 8, y + 7 + 5);
-        gol.makeAlive(x + 9, y + 7 + 5);
-        gol.makeAlive(x + 10, y + 7 + 5);
-    }
-});
-
-
-document.getElementById('step')!.addEventListener('click', performStep);
