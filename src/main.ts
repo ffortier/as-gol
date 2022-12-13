@@ -119,4 +119,70 @@ document.getElementById('toggleAnimation')!.addEventListener('click', () => {
     }
 });
 
+document.getElementById('pulsars')!.addEventListener('click', () => {
+    for (let i = 0; i < 20; i++) {
+        const x = Math.floor(Math.random() * width);
+        const y = Math.floor(Math.random() * height);
+
+        gol.makeAlive(x + 2, y);
+        gol.makeAlive(x + 3, y);
+        gol.makeAlive(x + 4, y);
+        gol.makeAlive(x + 8, y);
+        gol.makeAlive(x + 9, y);
+        gol.makeAlive(x + 10, y);
+
+        gol.makeAlive(x, y + 2);
+        gol.makeAlive(x + 5, y + 2);
+        gol.makeAlive(x + 7, y + 2);
+        gol.makeAlive(x + 12, y + 2);
+
+        gol.makeAlive(x, y + 3);
+        gol.makeAlive(x + 5, y + 3);
+        gol.makeAlive(x + 7, y + 3);
+        gol.makeAlive(x + 12, y + 3);
+
+        gol.makeAlive(x, y + 4);
+        gol.makeAlive(x + 5, y + 4);
+        gol.makeAlive(x + 7, y + 4);
+        gol.makeAlive(x + 12, y + 4);
+
+        gol.makeAlive(x + 2, y + 5);
+        gol.makeAlive(x + 3, y + 5);
+        gol.makeAlive(x + 4, y + 5);
+        gol.makeAlive(x + 8, y + 5);
+        gol.makeAlive(x + 9, y + 5);
+        gol.makeAlive(x + 10, y + 5);
+
+        gol.makeAlive(x + 2, y + 7);
+        gol.makeAlive(x + 3, y + 7);
+        gol.makeAlive(x + 4, y + 7);
+        gol.makeAlive(x + 8, y + 7);
+        gol.makeAlive(x + 9, y + 7);
+        gol.makeAlive(x + 10, y + 7);
+
+        gol.makeAlive(x, y + 7 + 1);
+        gol.makeAlive(x + 5, y + 7 + 1);
+        gol.makeAlive(x + 7, y + 7 + 1);
+        gol.makeAlive(x + 12, y + 7 + 1);
+
+        gol.makeAlive(x, y + 7 + 2);
+        gol.makeAlive(x + 5, y + 7 + 2);
+        gol.makeAlive(x + 7, y + 7 + 2);
+        gol.makeAlive(x + 12, y + 7 + 2);
+
+        gol.makeAlive(x, y + 7 + 3);
+        gol.makeAlive(x + 5, y + 7 + 3);
+        gol.makeAlive(x + 7, y + 7 + 3);
+        gol.makeAlive(x + 12, y + 7 + 3);
+
+        gol.makeAlive(x + 2, y + 7 + 5);
+        gol.makeAlive(x + 3, y + 7 + 5);
+        gol.makeAlive(x + 4, y + 7 + 5);
+        gol.makeAlive(x + 8, y + 7 + 5);
+        gol.makeAlive(x + 9, y + 7 + 5);
+        gol.makeAlive(x + 10, y + 7 + 5);
+    }
+});
+
+
 document.getElementById('step')!.addEventListener('click', performStep);
