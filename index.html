@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Game of Life</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+    <section id="page">
+        <header>
+            <h1>Game of Life</h1>
+        </header>
+        <nav>
+            <fieldset>
+                <legend>Settings</legend>
+                <form id="actions">
+                    <label>
+                        <input type="radio" name="mode" id="as" value="as" />
+                        <span>AssemblyScript</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="mode" id="ts" value="ts" />
+                        <span>TypescriptScript</span>
+                    </label>
+                    <label>
+                        Cell size
+                        <input type="range" min="1" max="20" name="factor" id="factor" />
+                    </label>
+                    <button type="submit">Apply</button>
+                </form>
+            </fieldset>
+            <fieldset>
+                <legend>Actions </legend>
+                <button type="button" id="planners">Planners!</button>
+                <button type="button" id="toggleAnimation">Toggle Animation</button>
+                <button type="button" id="step">step</button>
+            </fieldset>
+        </nav>
+        <main>
+            <canvas id="canvas"></canvas>
+        </main>
+        <footer>
+            <div>
+                <span>fps</span>
+                <span id="fps"></span>
+            </div>
+            <div>
+                <span>size (pixel)</span>
+                <span id="widthPixel"></span>x<span id="heightPixel"></span>
+            </div>
+            <div>
+                <span>size (cell)</span>
+                <span id="widthCell"></span>x<span id="heightCell"></span>
+            </div>
+        </footer>
+    </section>
+    <script type="module" src="src/main.ts"></script>
+</body>
+
+</html>
