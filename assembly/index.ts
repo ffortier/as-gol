@@ -3,8 +3,9 @@ let height: u32 = 10;
 let data: Uint32Array = new Uint32Array(width * height);
 let nextData: Uint32Array = new Uint32Array(width * height);
 
+// rgba little-endian
 const DEAD: u32 = 0xFFFFFFFF;
-const ALIVE: u32 = 0x000000FF;
+const ALIVE: u32 = 0xFF3357FF;
 
 export function resize(width_: u32, height_: u32): void {
     assertTrue(width > 0, `width must be greater than 0 but was ${width}`);
