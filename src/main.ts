@@ -4,12 +4,12 @@ import { fps } from "./fps.js";
 import { GLIDER, GLIDER_GUN, PULSAR } from "./shapes.js";
 
 const params = new URLSearchParams(location.search);
-const gol = params.get('mode') === 'as' ? as : ts;
+const { resize, makeAlive, next, redraw } = params.get('mode') === 'ts' ? ts : as;
 const factor = parseInt(params.get('factor') ?? '5');
 
 (document.getElementById('factor') as HTMLInputElement).value = `${factor}`;
-(document.getElementById('as') as HTMLInputElement).checked = gol === as;
-(document.getElementById('ts') as HTMLInputElement).checked = gol === ts;
+(document.getElementById('as') as HTMLInputElement).checked = params.get('mode') !== 'ts';
+(document.getElementById('ts') as HTMLInputElement).checked = params.get('mode') === 'ts';
 
 const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d')!;
@@ -34,11 +34,11 @@ const performResize = () => {
 
     img = ctx.createImageData(width, height);
 
-    gol.resize(width, height);
+    resize(width, height);
 };
 
 const performStep = () => {
-    const data = gol.next();
+    const data = next();
 
     img.data.set(new Uint8Array(data.buffer, 8));
 
@@ -62,7 +62,7 @@ const makeShape = (shape: string, x: number, y: number) => {
     for (const ch of shape) {
         switch (ch) {
             case '1':
-                gol.makeAlive(x + dx++, y + dy);
+                makeAlive(x + dx++, y + dy);
                 break;
             case '\n':
                 dx = 0;
@@ -85,7 +85,7 @@ canvas.addEventListener('pointermove', e => {
     const x = Math.floor((e.clientX - rect.x) / factor);
     const y = Math.floor((e.clientY - rect.y) / factor);
 
-    gol.makeAlive(x, y);
+    makeAlive(x, y);
 });
 
 canvas.addEventListener('mousedown', e => {
@@ -96,7 +96,7 @@ canvas.addEventListener('mousedown', e => {
 
     for (let i = -size; i < size; i++) {
         for (let j = -size; j < size; j++) {
-            gol.makeAlive(x + i, y + j);
+            makeAlive(x + i, y + j);
         }
     }
 });
@@ -123,7 +123,7 @@ const shapeMaker = (shape: string, count = 20) => () => {
         makeShape(shape, x, y);
     }
 
-    const data = gol.redraw();
+    const data = redraw();
     img.data.set(new Uint8Array(data.buffer, 8));
     ctx.putImageData(img, 0, 0);
 };
